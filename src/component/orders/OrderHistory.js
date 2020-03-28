@@ -3,22 +3,24 @@ import Axios from "axios";
 import FoodDetails from "./FoodDetails";
 import { Redirect } from "react-router-dom";
 import base64 from "base-64";
+import Spinner from "../../utils/spinner";
 
 export default class OrderHistory extends Component {
   state = {
     restaurantOrders: [],
-    redirect: false
+    redirect: false,
+    loading: true
   };
   componentDidMount() {
     if (localStorage.token) {
-      const link = `http://127.0.0.1:8000/api/order/history?email_id=${
+      const link = `https://foodshala-api.herokuapp.com/api/order/history?email_id=${
         JSON.parse(base64.decode(localStorage.token)).email_id
       }`;
       Axios.get(link)
         .then(res => {
-          console.log(res.data.data.order_history);
           this.setState({
-            restaurantOrders: res.data.data.order_history
+            restaurantOrders: res.data.data.order_history,
+            loading: false
           });
         })
         .catch(err => console.log(err));
@@ -34,19 +36,19 @@ export default class OrderHistory extends Component {
       return <Redirect to="/menu" />;
     }
 
-    const showOrders = this.state.restaurantOrders.map((restaurants, key) => {
+    const showOrders = this.state.restaurantOrders.map((restaurants, i) => {
       return (
         <FoodDetails
+          key={i}
           name={restaurants.customer_details}
           details={restaurants.food_details.order_details}
         />
       );
     });
-    console.log(showOrders);
     return (
       <div>
         <h3 className="display-4 mb-4">Your Orders</h3>
-        {showOrders}
+        {this.state.loading ? <Spinner /> : showOrders}
       </div>
     );
   }

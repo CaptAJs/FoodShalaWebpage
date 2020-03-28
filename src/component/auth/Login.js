@@ -24,7 +24,6 @@ class Login extends Component {
     });
   };
   user_typeHandler = e => {
-    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -33,7 +32,6 @@ class Login extends Component {
     if (localStorage.token) {
       const bytes = JSON.parse(base64.decode(localStorage.token));
       this.setState({ user: bytes });
-      console.log(bytes);
     }
   }
   componentDidUpdate() {
@@ -51,7 +49,6 @@ class Login extends Component {
       user_type: this.state.user_type
     };
     const { errors, isValid } = validationLoginInput(user);
-    console.log("valid", isValid, "errors", errors);
     if (!isValid) {
       this.setState({
         errors: errors
@@ -63,18 +60,17 @@ class Login extends Component {
       axios
         .post(config.login, user)
         .then(res => {
-          console.log(res.data);
           localStorage.setItem("token", res.data.data.auth_token);
           localStorage.setItem("user_type", this.state.user_type);
           const bytes = JSON.parse(base64.decode(localStorage.token));
           this.setState({ user: bytes, loading: false });
+          window.location.reload(false);
         })
         .catch(err => {
           this.setState({
-            errors: { password: JSON.stringify(err.response.data.error) },
+            errors: { password: err.response.data.error },
             loading: false
           });
-          console.log(JSON.stringify(err.response.data.error));
         });
     }
   };
@@ -82,7 +78,6 @@ class Login extends Component {
     const { errors } = this.state;
     const { user_type } = this.state.user;
 
-    // if (this.state.valid) {
     if (user_type === "1") {
       return <Redirect to="/add_item" />;
     } else if (user_type === "0") {

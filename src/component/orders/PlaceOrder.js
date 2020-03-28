@@ -6,6 +6,9 @@ import base64 from "base-64";
 import OrderedFood from "./OrderedFood";
 
 export default class PlaceOrder extends Component {
+  state = {
+    show: false
+  };
   render() {
     if (localStorage.token) {
       if (JSON.parse(base64.decode(localStorage.token)).user_type !== "0")
@@ -28,9 +31,9 @@ export default class PlaceOrder extends Component {
           </Link>
         </h3>
         <h1 className="text-center display-3 mb-4">
-          Thank you for ordering from {localStorage.restaurant}...
+          Thank you for ordering from {JSON.parse(localStorage.restaurant)}...
         </h1>
-        {/* {showOrder} */}
+        {this.state.show ? showOrder : null}
       </div>
     );
   }

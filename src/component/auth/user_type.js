@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CustomerRegister from "./customerRegister";
-import RestaurantRegister from "./restaurantResgister";
+import RestaurantRegister from "./restaurantRegister";
 import { Redirect } from "react-router-dom";
 
 class user_type extends Component {
@@ -10,7 +10,6 @@ class user_type extends Component {
   };
   render() {
     if (localStorage.token) {
-      console.log(localStorage.token);
       return <Redirect to="/login" />;
     }
     return (

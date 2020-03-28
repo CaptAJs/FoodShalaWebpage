@@ -1,9 +1,6 @@
 import React from "react";
 
 export default function FoodDetails(props) {
-  console.log("name", props.name);
-  console.log("food name", props.details);
-
   return (
     <div className="container cardSpace">
       <div className="card">
@@ -12,12 +9,13 @@ export default function FoodDetails(props) {
             Name : {props.name.username}, Email : {props.name.email}, Mobile No.
             : {props.name.phone_number}
           </h3>
-          {props.details.map(food => {
+          <hr />
+          {props.details.map((food, i) => {
             return (
-              <h4 className="row">
+              <h4 className="row" key={i}>
                 <p className="col-1"></p>
                 <p className="col-7">{food.food_name}</p>
-                <p className="col-4">
+                <div className="col-4">
                   {food.food_type === "veg" ? (
                     <p className="text-success text-center">
                       {food.food_type}{" "}
@@ -25,7 +23,7 @@ export default function FoodDetails(props) {
                   ) : (
                     <p className="text-danger text-center">{food.food_type} </p>
                   )}
-                </p>
+                </div>
               </h4>
             );
           })}

@@ -1,9 +1,9 @@
 module.exports = {
-  sign_up: "http://127.0.0.1:8000/api/sign_up/",
-  login: "http://127.0.0.1:8000/api/login/",
-  add_item: "http://127.0.0.1:8000/api/add/item/",
-  menu: "http://127.0.0.1:8000/api/menu/",
-  order: "http://127.0.0.1:8000/api/place/order/",
-  orders: "http://127.0.0.1:8000/api/order/history",
+  sign_up: "https://foodshala-api.herokuapp.com/api/sign_up/",
+  login: "https://foodshala-api.herokuapp.com/api/login/",
+  add_item: "https://foodshala-api.herokuapp.com/api/add/item/",
+  menu: "https://foodshala-api.herokuapp.com/api/menu/",
+  order: "https://foodshala-api.herokuapp.com/api/place/order/",
+  orders: "https://foodshala-api.herokuapp.com/api/order/history",
   token: localStorage.token
 };

@@ -116,18 +116,20 @@ export default class Menu extends Component {
       return <Redirect to="/order" />;
     }
 
-    const showMenu = this.state.Menu.map((restaurants, key) => {
+    const showMenu = this.state.Menu.map((restaurants, i) => {
       return (
         <Restaurant
+          key={i}
           name={restaurants.restaurant_name}
           location={restaurants.restaurant_location}
           click={e => this.showFoodItems(e, restaurants.restaurant_id)}
         />
       );
     });
-    const showFood = food_items.map((food, key) => {
+    const showFood = food_items.map((food, i) => {
       return (
         <Food
+          key={i}
           name={food.food_name}
           type={food.food_type}
           addItem={e => this.addItem(e, food.food_id)}

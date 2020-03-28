@@ -3,29 +3,24 @@ import classnames from "classnames";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
-import validationCustomerRegisterInput from "../../utils/validation/customerRegister";
+import validationRestaurantRegisterInput from "../../utils/validation/restaurantRegister";
 import config from "../../config";
 import Spinner from "../../utils/spinner";
 
-class CustomerRegister extends Component {
+class RestaurantRegister extends Component {
   state = {
-    user_name: "",
-    email: "",
+    restaurant_name: "",
+    email_id: "",
+    restaurant_location: "",
     password: "",
-    user_type: "0",
+    user_type: "1",
     phone_number: "",
-    is_veg: "True",
+    is_veg: "False",
     redirect: false,
-    valid: false,
-    loading: false,
-    errors: {}
+    errors: {},
+    valid: false
   };
   onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-  isVegHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -34,16 +29,14 @@ class CustomerRegister extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     const newUser = {
-      user_name: this.state.user_name,
-      email_id: this.state.email,
+      restaurant_name: this.state.restaurant_name,
+      restaurant_location: this.state.restaurant_location,
+      email_id: this.state.email_id,
       password: this.state.password,
       user_type: this.state.user_type,
-      phone_number: this.state.phone_number,
-      is_veg: this.state.is_veg
+      phone_number: this.state.phone_number
     };
-
-    const { errors, isValid } = validationCustomerRegisterInput(newUser);
-
+    const { errors, isValid } = validationRestaurantRegisterInput(newUser);
     if (!isValid) {
       this.setState({
         errors: errors
@@ -58,11 +51,11 @@ class CustomerRegister extends Component {
         .then(res => {
           localStorage.setItem("token", res.data.data.auth_token);
           localStorage.setItem("user_type", this.state.user_type);
-          window.location.reload(false);
           this.setState({ redirect: true, loading: false });
+          window.location.reload(false);
         })
         .catch(err =>
-          this.setState({ errors: { email_id: err.response.data.error } })
+          this.setState({ errors: { password: err.response.data.error } })
         );
     }
   };
@@ -70,27 +63,47 @@ class CustomerRegister extends Component {
     const errors = this.state.errors;
     const { redirect } = this.state;
     if (redirect) {
-      return <Redirect to="/menu" />;
+      return <Redirect to="/add_item" />;
     }
-    const customerRegister = (
+    const restaurantRegister = (
       <div>
-        <h1 className="display-4 text-center">Customer Sign Up</h1>
-        <p className="lead text-center">Create account and Start Ordering...</p>
-        <form noValidate onSubmit={this.onSubmit}>
+        <h1 className="display-4 text-center">Restaurant Sign Up</h1>
+        <p className="lead text-center">
+          Create account and Start Selling Your Delicious Food...
+        </p>
+        <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <input
               type="text"
               className={classnames("form-control form-control-lg", {
-                "is-invalid": errors.user_name
+                "is-invalid": errors.restaurant_name
               })}
-              placeholder="Customer Name"
-              name="user_name"
-              value={this.state.user_name}
+              placeholder="Restaurant Name"
+              name="restaurant_name"
+              value={this.state.restaurant_name}
               onChange={this.onChange}
             />
 
-            {errors.user_name && (
-              <div className="invalid-feedback">{errors.user_name}</div>
+            {errors.restaurant_name && (
+              <div className="invalid-feedback">{errors.restaurant_name}</div>
+            )}
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className={classnames("form-control form-control-lg", {
+                "is-invalid": errors.restaurant_location
+              })}
+              placeholder="Restaurant location"
+              name="restaurant_location"
+              value={this.state.restaurant_location}
+              onChange={this.onChange}
+            />
+
+            {errors.restaurant_location && (
+              <div className="invalid-feedback">
+                {errors.restaurant_location}
+              </div>
             )}
           </div>
           <div className="form-group">
@@ -100,8 +113,8 @@ class CustomerRegister extends Component {
                 "is-invalid": errors.email_id
               })}
               placeholder="Email Address"
-              name="email"
-              value={this.state.email}
+              name="email_id"
+              value={this.state.email_id}
               onChange={this.onChange}
             />
             {errors.email_id && (
@@ -123,32 +136,6 @@ class CustomerRegister extends Component {
               <div className="invalid-feedback">{errors.phone_number}</div>
             )}
           </div>
-          <div className="row">
-            <div className="col-4 btn-group">
-              <label className="btn btn-success active">
-                <input
-                  type="radio"
-                  name="is_veg"
-                  autoComplete="off"
-                  value="True"
-                  onChange={e => this.isVegHandler(e)}
-                  defaultChecked
-                />
-                VEG
-              </label>
-
-              <label className="btn btn-danger">
-                <input
-                  type="radio"
-                  name="is_veg"
-                  autoComplete="off"
-                  value="False"
-                  onChange={e => this.isVegHandler(e)}
-                />
-                Non-VEG
-              </label>
-            </div>
-          </div>
           <div className="form-group">
             <input
               type="password"
@@ -168,7 +155,6 @@ class CustomerRegister extends Component {
         </form>
       </div>
     );
-
     return (
       <div className="register">
         <div className="container">
@@ -176,12 +162,12 @@ class CustomerRegister extends Component {
             <div className="col-md-8 m-auto">
               {this.state.loading ? (
                 this.state.errors ? (
-                  customerRegister
+                  restaurantRegister
                 ) : (
                   <Spinner />
                 )
               ) : (
-                customerRegister
+                restaurantRegister
               )}
             </div>
           </div>
@@ -190,4 +176,4 @@ class CustomerRegister extends Component {
     );
   }
 }
-export default CustomerRegister;
+export default RestaurantRegister;

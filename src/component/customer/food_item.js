@@ -11,15 +11,22 @@ function Food(props) {
           <p className="text-danger text-center">{props.type} </p>
         )}
       </h2>
- 
- <div className="col-1"></div>
-     <button type="click" onClick={props.removeItem}  className="btn col-1">remove</button>
-     <hr/>
 
-     <button type="click" onClick={props.addItem} className="btn btn-info col-1">add</button>
-  
-               
-<hr/>
+      <div className="col-1"></div>
+      <button type="click" onClick={props.removeItem} className="btn col-1">
+        remove
+      </button>
+      <hr />
+
+      <button
+        type="click"
+        onClick={props.addItem}
+        className="btn btn-info col-1"
+      >
+        add
+      </button>
+
+      <hr />
     </div>
   );
 }

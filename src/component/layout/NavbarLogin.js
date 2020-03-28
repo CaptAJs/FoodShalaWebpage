@@ -1,22 +1,7 @@
 import React, { Component } from "react";
+
 import { Link } from "react-router-dom";
-import base64 from "base-64";
-
-let isAuthenticate = false;
-if (localStorage.token) {
-  isAuthenticate = JSON.parse(base64.decode(localStorage.token));
-}
-class Navbar extends Component {
-  state = {
-    login: false
-  };
-
-  onLogoutClick = e => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("order");
-    localStorage.removeItem("user_type");
-  };
-
+export default class NavbarLogin extends Component {
   render() {
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
@@ -32,15 +17,7 @@ class Navbar extends Component {
         </li>
       </ul>
     );
-    const authLinks = (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-          <a href="/login" onClick={this.onLogoutClick} className="nav-link">
-            Logout
-          </a>
-        </li>
-      </ul>
-    );
+
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
@@ -78,11 +55,10 @@ class Navbar extends Component {
                 </Link>
               </li>
             </ul>
-            {isAuthenticate ? authLinks : guestLinks}
+            {guestLinks}
           </div>
         </div>
       </nav>
     );
   }
 }
-export default Navbar;
